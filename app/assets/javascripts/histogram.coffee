@@ -27,6 +27,21 @@ class @Histogram
       .domain([0, d3.max(bins, (d) -> d.length)])
       .range([height, 0])
 
+    y2 = d3.scaleLinear()
+      .domain([0, 1])
+      .range([height, 0])
+
+    lineData = []
+    total = 0
+    for { x0, x1, length } in bins
+      lineData.push
+        x: x0 + (x1 - x0) / 2
+        value: (total += length) / @data.length
+
+    line = d3.line()
+      .x((d)-> x(d.x))
+      .y((d)-> y2(d.value))
+
     bar = g.selectAll(".bar")
       .data(bins)
       .enter()
@@ -44,6 +59,15 @@ class @Histogram
       .attr("y", 6)
       .attr("x", (x(bins[0].x1) - x(bins[0].x0)) / 2)
       .attr("text-anchor", "middle").text((d) -> formatCount(d.length))
+
+    g.append("path")
+      .datum(lineData)
+      .attr("fill", "none")
+      .attr("stroke", "orange")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", line)
 
     g.append("g")
       .attr("class", "axis axis--x")
