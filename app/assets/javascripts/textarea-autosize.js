@@ -1,15 +1,15 @@
 // Source: https://gist.github.com/ugin/5779160
 
-function domReady (f) { /in/.test(document.readyState) ? setTimeout(domReady,16,f) : f() }
+function domReady(f) { /in/.test(document.readyState) ? setTimeout(domReady,16,f) : f() }
 
-function resize (event) {
-  event.target.style.height = 'auto';
-  event.target.style.height = event.target.scrollHeight+'px';
+function resize(textarea) {
+  textarea.style.height = 'auto';
+  textarea.style.height = textarea.scrollHeight+'px';
 }
 
 /* 0-timeout to get the already changed text */
-function delayedResize (event) {
-  window.setTimeout(resize, 0, event);
+function delayedResize(event) {
+  window.setTimeout(resize, 0, event.target);
 }
 
 domReady(function () {
@@ -23,5 +23,7 @@ domReady(function () {
     el.addEventListener('paste',   delayedResize, false);
     el.addEventListener('drop',    delayedResize, false);
     el.addEventListener('keydown', delayedResize, false);
+
+    resize(el);
   }
 });
