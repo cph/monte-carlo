@@ -1,5 +1,11 @@
 {
   "name": "monte-carlo",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "d3": "^4.10.0"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Bob Lail <bob.lailfamily@gmail.com>",
+  "license": "MIT"
 }

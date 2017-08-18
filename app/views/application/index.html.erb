@@ -1,0 +1,17 @@
+<h1>Hi</h1>
+
+<%= form_tag do %>
+  <%= text_area_tag :features, @features_text %>
+  <%= submit_tag "Run" %>
+<% end %>
+
+<hr>
+
+<p>Required number of iterations: <%= @algorithm.minimum_iterations %></p>
+
+<svg width="800" height="480" />
+
+<script>
+  var iterations = <%= raw @algorithm.iterations.to_json %>;
+  new Histogram(iterations).render();
+</script>
