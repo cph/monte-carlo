@@ -1,6 +1,7 @@
 class @Histogram
 
   constructor: (@data) ->
+    @numberOfBins = 20
 
   render: ->
     formatCount = d3.format(",.0f")
@@ -21,7 +22,7 @@ class @Histogram
 
     bins = d3.histogram()
       .domain(x.domain())
-      .thresholds(x.ticks(20))(@data)
+      .thresholds(x.ticks(@numberOfBins))(@data)
 
     y = d3.scaleLinear()
       .domain([0, d3.max(bins, (d) -> d.length)])
@@ -41,6 +42,9 @@ class @Histogram
     line = d3.line()
       .x((d)-> x(d.x))
       .y((d)-> y2(d.value))
+
+    xAxis = d3.axisBottom(x)
+      .ticks(@numberOfBins)
 
     bar = g.selectAll(".bar")
       .data(bins)
@@ -71,4 +75,4 @@ class @Histogram
 
     g.append("g")
       .attr("class", "axis axis--x")
-      .attr("transform", "translate(0,#{height})").call d3.axisBottom(x)
+      .attr("transform", "translate(0,#{height})").call(xAxis)
